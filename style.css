@@ -1,0 +1,153 @@
+/* Base typography and layout */
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  background-color: #fff;
+}
+
+/* High contrast mode */
+.high-contrast {
+  background-color: #000;
+  color: #fff;
+}
+
+.high-contrast a {
+  color: #9ecfff;
+}
+
+header {
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+nav {
+  background-color: #333;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+nav li {
+  margin: 0;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  display: block;
+}
+nav a:focus,
+nav a:hover {
+  background-color: #575757;
+}
+
+/* Skip link: visually hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem;
+  z-index: 100;
+  transition: top 0.3s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+main {
+  padding: 1rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+/* Table styling for patient list */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+table thead {
+  background-color: #eee;
+}
+
+table th,
+ table td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Form styling */
+form {
+  max-width: 40rem;
+  margin-top: 1rem;
+}
+form label {
+  display: block;
+  margin-top: 1rem;
+}
+form input,
+form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+form button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+form button:hover,
+form button:focus {
+  background-color: #0056b3;
+}
+
+/* Accessibility content within the same page */
+article {
+  margin-bottom: 1rem;
+}
+ol {
+  padding-left: 1.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+  }
+  nav a {
+    padding: 0.5rem;
+  }
+}
