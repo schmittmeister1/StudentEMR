@@ -1,207 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EMR Playground</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PTA EMR Playground</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Skip link helps keyboard users jump straight to the main content -->
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header>
+        <h1>PTA EMR Playground</h1>
+        <p class="subtitle">Explore patient cases and practice your documentation skills</p>
+    </header>
 
-  <header>
-    <h1>EMR Playground</h1>
-    <!-- Button toggles high‑contrast mode for improved legibility -->
-    <button id="toggle-contrast" aria-label="Toggle high contrast mode">Toggle High Contrast</button>
-  </header>
+    <main>
+        <!-- Patient List Section -->
+        <section id="patient-list-section">
+            <h2>Patient Cases</h2>
+            <div class="search-container">
+                <label for="searchInput" class="visually-hidden">Search patients</label>
+                <input type="text" id="searchInput" placeholder="Search by name or condition…" aria-label="Search patients">
+            </div>
+            <div class="table-container">
+                <table id="patientTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Category</th>
+                            <th>Condition</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows injected by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-  <nav>
-    <ul>
-      <li><a href="#patient-management">Patient Management</a></li>
-      <li><a href="#accessibility">Accessibility</a></li>
-    </ul>
-  </nav>
+        <!-- Patient Details Section -->
+        <section id="patient-details-section" class="hidden">
+            <button id="backToListBtn" class="back-button">← Back to List</button>
+            <h2 id="patientName"></h2>
+            <!-- Evaluation Details -->
+            <div class="card">
+                <h3>Evaluation</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Evaluation Date</label>
+                        <input type="date" id="evalDate" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Re-certification Date</label>
+                        <input type="date" id="recertDate" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Medical Dx (ICD-10)</label>
+                        <input type="text" id="icdMed" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Treatment Dx (ICD-10)</label>
+                        <input type="text" id="icdTx" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Account #</label>
+                        <input type="text" id="accountNum" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Insurance Provider</label>
+                        <input type="text" id="insurance" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Policy Number</label>
+                        <input type="text" id="policyNum" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Referring Physician</label>
+                        <input type="text" id="refPhys" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Evaluating Therapist</label>
+                        <input type="text" id="evalTherapist" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="dob" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Clinical Assessment</label>
+                        <textarea id="clinicalAssessment" disabled></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Functional Progress</label>
+                        <textarea id="functionalProgress" disabled></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Medications</label>
+                        <textarea id="medications" disabled></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Objective Measures</label>
+                        <textarea id="objectiveMeasures" disabled></textarea>
+                    </div>
+                </div>
+                <!-- Goals -->
+                <div class="goals-container">
+                    <h4>Short Term Goals</h4>
+                    <div id="shortTermGoals">
+                        <!-- Goals inserted here -->
+                    </div>
+                    <h4>Long Term Goals</h4>
+                    <div id="longTermGoals">
+                        <!-- Goals inserted here -->
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Contraindications</label>
+                        <textarea id="contraindications" disabled></textarea>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label><input type="checkbox" id="patientConsent" disabled> Patient Consent</label>
+                        <label><input type="checkbox" id="informedConsent" disabled> Informed Consent</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Required CPT Codes</label>
+                        <input type="text" id="cptCodes" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Plan Frequency</label>
+                        <input type="text" id="planFrequency" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Therapist Signature</label>
+                        <input type="text" id="therapistSignature" placeholder="Sign here">
+                    </div>
+                    <div class="form-group">
+                        <label>Physician Signature</label>
+                        <input type="text" id="physicianSignature" placeholder="Physician sign here">
+                    </div>
+                </div>
+                <div class="button-row">
+                    <button id="saveEvalBtn">Save Evaluation</button>
+                    <button id="lockEvalBtn">Sign & Lock Evaluation</button>
+                </div>
+            </div>
+            <!-- Progress Notes Section -->
+            <div class="card">
+                <h3>Progress Notes</h3>
+                <button id="addProgressNoteBtn" class="add-button">+ Add Progress Note</button>
+                <table id="progressNotesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Notes inserted by JS -->
+                    </tbody>
+                </table>
+                <div id="progressNoteDetail" class="progress-note-detail hidden">
+                    <h4>Progress Note Details</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="pnDate">
+                        </div>
+                        <div class="form-group">
+                            <label>Subjective</label>
+                            <textarea id="pnSubjective"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Objective</label>
+                            <textarea id="pnObjective"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Assessment</label>
+                            <textarea id="pnAssessment"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Plan</label>
+                            <textarea id="pnPlan"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>CPT Codes & Minutes</label>
+                            <textarea id="pnCptCodes"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Minutes</label>
+                            <input type="number" id="pnTotalMinutes">
+                        </div>
+                        <div class="form-group">
+                            <label>Units</label>
+                            <input type="number" id="pnUnits">
+                        </div>
+                        <div class="form-group">
+                            <label>Therapist Signature</label>
+                            <input type="text" id="pnSignature" placeholder="Sign here">
+                        </div>
+                    </div>
+                    <div class="button-row">
+                        <button id="saveProgressNoteBtn">Save Note</button>
+                        <button id="lockProgressNoteBtn">Sign & Lock Note</button>
+                        <button id="closeProgressNoteBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <main id="main-content">
-    <section id="patient-management">
-      <h2>Patient Management</h2>
-      <p>
-        This section provides a simple, client‑side electronic medical record (EMR) playground. You can search existing
-        patient records, add new patients and delete entries. All data is stored locally in your browser so you can
-        experiment safely without sharing personal information.
-      </p>
-      <label for="search">Search patients:</label>
-      <input type="text" id="search" placeholder="Enter a name…" aria-label="Search patients">
-      <table aria-label="Patient list">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Date of Birth</th>
-            <th scope="col">Patient ID</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody id="patients-body">
-          <!-- Patient rows will be injected here -->
-        </tbody>
-      </table>
-      <h3>Add New Patient</h3>
-      <form id="add-patient-form" novalidate>
-        <label for="patient-name">Name <span aria-hidden="true">*</span></label>
-        <input id="patient-name" name="patient-name" type="text" required>
+    <footer>
+        <p>PTA EMR Playground – For educational use only. Generated patient data is fictitious.</p>
+    </footer>
 
-        <label for="patient-dob">Date of Birth <span aria-hidden="true">*</span></label>
-        <input id="patient-dob" name="patient-dob" type="date" required>
-
-        <label for="patient-id">Patient ID <span aria-hidden="true">*</span></label>
-        <input id="patient-id" name="patient-id" type="text" required>
-
-        <button type="submit">Add Patient</button>
-      </form>
-      <p id="patient-form-feedback" aria-live="polite"></p>
-    </section>
-
-    <section id="accessibility">
-      <h2>Accessibility Guide</h2>
-      <!-- Reuse the accessibility content from the previous accessible website -->
-      <section id="why">
-        <h3>Why Accessibility Matters</h3>
-        <p>
-          Accessible web design ensures that every student—regardless of ability or
-          disability—can access the information and services they need. Roughly
-          one in five adults live with some form of disability, so an
-          inaccessible website can block a significant portion of your
-          audience<sup><a href="#fn1" id="ref1">[1]</a></sup>. Institutions of higher
-          education are often legally required to meet accessibility
-          requirements and should proactively implement inclusive practices
-          rather than wait for legal challenges<sup><a href="#fn1" id="ref1b">[1]</a></sup>.
-        </p>
-      </section>
-      <section id="principles">
-        <h3>Design Principles</h3>
-        <article>
-          <h4>Provide Sufficient Contrast</h4>
-          <p>
-            Text needs to stand out clearly from its background so that people
-            with low vision or colour‑blindness can read it. Ensure there is
-            enough contrast between foreground and background colours for
-            paragraph text, icons, buttons and images<sup><a href="#fn2" id="ref2">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Use More Than Colour to Communicate</h4>
-          <p>
-            Colour should not be the only way you convey meaning. For example,
-            required form fields shouldn’t be indicated solely in red; include
-            symbols or labels as well<sup><a href="#fn2" id="ref2b">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Identify Interactive Elements</h4>
-          <p>
-            Links and buttons should have distinct styles and visible focus
-            states for keyboard navigation. Users need to know when they are
-            interacting with an element and be able to reach everything using
-            the keyboard<sup><a href="#fn2" id="ref2c">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Clear Navigation</h4>
-          <p>
-            Navigation menus should be consistent in naming, styling and
-            positioning. Provide more than one way to locate content (for
-            example, search, site map or breadcrumbs)<sup><a href="#fn2" id="ref2d">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Labels for Form Elements</h4>
-          <p>
-            Every form field must have a descriptive label adjacent to the input
-            box. Labels are generally placed to the left or above the field,
-            ensuring a clear association<sup><a href="#fn2" id="ref2e">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Provide Feedback</h4>
-          <p>
-            Forms and interactive components should provide clear feedback when
-            something goes wrong—show error messages in a prominent way and
-            explain how to fix them<sup><a href="#fn2" id="ref2f">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Organise Content With Headings and Spacing</h4>
-          <p>
-            Use headings, lists and whitespace to group related content. Clear
-            structure helps users with cognitive or reading difficulties follow
-            the information<sup><a href="#fn2" id="ref2g">[2]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Design for Different Screen Sizes</h4>
-          <p>
-            When viewed on a mobile phone or with large text, layouts should
-            adapt to a single column and keep navigation accessible. The
-            presentation of key elements such as headers and navigation should
-            adjust to make the best use of space<sup><a href="#fn3" id="ref3">[3]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Include Alternatives for Media</h4>
-          <p>
-            Provide alternatives such as transcripts for audio, captions for
-            videos and text descriptions for complex graphics. Collaborate
-            with content authors and developers to supply these alternatives<sup><a href="#fn3" id="ref3b">[3]</a></sup>.
-          </p>
-        </article>
-        <article>
-          <h4>Provide Controls for Auto‑Playing Content</h4>
-          <p>
-            Any automatically playing audio, video or carousel should include
-            controls to pause, stop or hide the content. This prevents users
-            from being distracted or triggered by unexpected movement<sup><a href="#fn3" id="ref3c">[3]</a></sup>.
-          </p>
-        </article>
-      </section>
-      <section id="four-principles">
-        <h3>The Four Accessibility Principles</h3>
-        <ol>
-          <li>
-            <strong>Perceivable:</strong> Provide text alternatives for non‑text
-            content (e.g. images and emoticons), supply captions for media and
-            ensure content can be presented in various ways while preserving
-            structure<sup><a href="#fn4" id="ref4">[4]</a></sup>.
-          </li>
-          <li>
-            <strong>Operable:</strong> Make sure all functionality can be
-            accessed via keyboard, give users enough time to read and use
-            content, avoid triggers for seizures and help users find their
-            location<sup><a href="#fn4" id="ref4b">[4]</a></sup>.
-          </li>
-          <li>
-            <strong>Understandable:</strong> Use clear language, make pages behave
-            predictably and help users avoid and correct mistakes<sup><a href="#fn4" id="ref4c">[4]</a></sup>.
-          </li>
-          <li>
-            <strong>Robust:</strong> Build websites with valid, semantic markup so
-            they can work with a range of current and future assistive
-            technologies<sup><a href="#fn1" id="ref1c">[1]</a></sup>.
-          </li>
-        </ol>
-      </section>
-      <section id="footnotes">
-        <h3>Sources</h3>
-        <ol>
-          <li id="fn1">Carnegie Higher Education’s “Web Accessibility 101 for Higher Education” explains that accessible websites benefit every visitor, notes that about one in five adults live with a disability and highlights the legal duty for institutions to follow the Americans with Disabilities Act (ADA). <a href="#ref1">↩︎</a></li>
-          <li id="fn2">The World Wide Web Consortium (W3C) page “Designing for Web Accessibility” advises designers to provide sufficient contrast, not rely on colour alone to convey information, ensure interactive elements are easily identifiable, maintain consistent navigation, associate labels with fields and provide clear feedback. <a href="#ref2">↩︎</a></li>
-          <li id="fn3">The same W3C resource recommends designing for different viewport sizes, providing alternatives for media and including controls for any auto‑playing content. <a href="#ref3">↩︎</a></li>
-          <li id="fn4">Digistorm Insights summarises the W3C Web Content Accessibility Guidelines (WCAG) for schools: make content perceivable (text and media alternatives), operable (keyboard access and navigation help), understandable (clear language and predictable interactions) and robust (compatible with assistive technologies). <a href="#ref4">↩︎</a></li>
-        </ol>
-      </section>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
