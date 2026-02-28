@@ -4,218 +4,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PTA EMR Playground</title>
+    <!-- Link our styles -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>PTA EMR Playground</h1>
-        <p class="subtitle">Explore patient cases and practice your documentation skills</p>
     </header>
-
-    <main>
-        <!-- Patient List Section -->
-        <section id="patient-list-section">
-            <h2>Patient Cases</h2>
-            <div class="search-container">
-                <label for="searchInput" class="visually-hidden">Search patients</label>
-                <input type="text" id="searchInput" placeholder="Search by name or condition…" aria-label="Search patients">
+    <div class="container">
+        <!-- Sidebar for patient list -->
+        <aside id="sidebar">
+            <div class="search-box">
+                <input type="text" id="patient-search" placeholder="Search patients..." aria-label="Search patients">
             </div>
-            <div class="table-container">
-                <table id="patientTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Category</th>
-                            <th>Condition</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Rows injected by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Patient Details Section -->
-        <section id="patient-details-section" class="hidden">
-            <button id="backToListBtn" class="back-button">← Back to List</button>
-            <h2 id="patientName"></h2>
-            <!-- Evaluation Details -->
-            <div class="card">
-                <h3>Evaluation</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Evaluation Date</label>
-                        <input type="date" id="evalDate" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Re-certification Date</label>
-                        <input type="date" id="recertDate" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Medical Dx (ICD-10)</label>
-                        <input type="text" id="icdMed" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Treatment Dx (ICD-10)</label>
-                        <input type="text" id="icdTx" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Account #</label>
-                        <input type="text" id="accountNum" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Insurance Provider</label>
-                        <input type="text" id="insurance" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Policy Number</label>
-                        <input type="text" id="policyNum" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Referring Physician</label>
-                        <input type="text" id="refPhys" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Evaluating Therapist</label>
-                        <input type="text" id="evalTherapist" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Date of Birth</label>
-                        <input type="date" id="dob" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Clinical Assessment</label>
-                        <textarea id="clinicalAssessment" disabled></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Functional Progress</label>
-                        <textarea id="functionalProgress" disabled></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Medications</label>
-                        <textarea id="medications" disabled></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Objective Measures</label>
-                        <textarea id="objectiveMeasures" disabled></textarea>
-                    </div>
-                </div>
-                <!-- Goals -->
-                <div class="goals-container">
-                    <h4>Short Term Goals</h4>
-                    <div id="shortTermGoals">
-                        <!-- Goals inserted here -->
-                    </div>
-                    <h4>Long Term Goals</h4>
-                    <div id="longTermGoals">
-                        <!-- Goals inserted here -->
-                    </div>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Contraindications</label>
-                        <textarea id="contraindications" disabled></textarea>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <label><input type="checkbox" id="patientConsent" disabled> Patient Consent</label>
-                        <label><input type="checkbox" id="informedConsent" disabled> Informed Consent</label>
-                    </div>
-                    <div class="form-group">
-                        <label>Required CPT Codes</label>
-                        <input type="text" id="cptCodes" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Plan Frequency</label>
-                        <input type="text" id="planFrequency" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Therapist Signature</label>
-                        <input type="text" id="therapistSignature" placeholder="Sign here">
-                    </div>
-                    <div class="form-group">
-                        <label>Physician Signature</label>
-                        <input type="text" id="physicianSignature" placeholder="Physician sign here">
-                    </div>
-                </div>
-                <div class="button-row">
-                    <button id="saveEvalBtn">Save Evaluation</button>
-                    <button id="lockEvalBtn">Sign & Lock Evaluation</button>
-                </div>
-            </div>
-            <!-- Progress Notes Section -->
-            <div class="card">
-                <h3>Progress Notes</h3>
-                <button id="addProgressNoteBtn" class="add-button">+ Add Progress Note</button>
-                <table id="progressNotesTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Notes inserted by JS -->
-                    </tbody>
-                </table>
-                <div id="progressNoteDetail" class="progress-note-detail hidden">
-                    <h4>Progress Note Details</h4>
+            <ul id="patient-list">
+                <!-- Patient list will be populated here -->
+            </ul>
+        </aside>
+        <!-- Main content area -->
+        <main id="main">
+            <section id="patient-details" class="hidden">
+                <h2 id="patient-name"></h2>
+                <form id="evaluation-form">
+                    <h3>Evaluation</h3>
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label>Date</label>
-                            <input type="date" id="pnDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Subjective</label>
-                            <textarea id="pnSubjective"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Objective</label>
-                            <textarea id="pnObjective"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Assessment</label>
-                            <textarea id="pnAssessment"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Plan</label>
-                            <textarea id="pnPlan"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>CPT Codes & Minutes</label>
-                            <textarea id="pnCptCodes"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Total Minutes</label>
-                            <input type="number" id="pnTotalMinutes">
-                        </div>
-                        <div class="form-group">
-                            <label>Units</label>
-                            <input type="number" id="pnUnits">
-                        </div>
-                        <div class="form-group">
-                            <label>Therapist Signature</label>
-                            <input type="text" id="pnSignature" placeholder="Sign here">
-                        </div>
+                        <label>
+                            Eval Date
+                            <input type="date" id="eval-date">
+                        </label>
+                        <label>
+                            Recert Date
+                            <input type="date" id="recert-date">
+                        </label>
+                        <label>
+                            ICD‑10 Medical
+                            <input type="text" id="icd10-med">
+                        </label>
+                        <label>
+                            ICD‑10 Treatment
+                            <input type="text" id="icd10-tx">
+                        </label>
+                        <label>
+                            Account #
+                            <input type="text" id="account-number">
+                        </label>
+                        <label>
+                            Insurance
+                            <input type="text" id="insurance">
+                        </label>
+                        <label>
+                            Policy #
+                            <input type="text" id="policy-number">
+                        </label>
+                        <label>
+                            Referring Physician
+                            <input type="text" id="referring-physician">
+                        </label>
+                        <label>
+                            Evaluating Therapist
+                            <input type="text" id="eval-therapist">
+                        </label>
+                        <label>
+                            Patient DOB
+                            <input type="date" id="dob">
+                        </label>
                     </div>
-                    <div class="button-row">
-                        <button id="saveProgressNoteBtn">Save Note</button>
-                        <button id="lockProgressNoteBtn">Sign & Lock Note</button>
-                        <button id="closeProgressNoteBtn">Close</button>
+                    <label>
+                        Clinical Assessment
+                        <textarea id="clinical-assessment" rows="3"></textarea>
+                    </label>
+                    <label>
+                        Functional Progress
+                        <textarea id="functional-progress" rows="2"></textarea>
+                    </label>
+                    <label>
+                        Medications
+                        <input type="text" id="medications">
+                    </label>
+                    <h4>Objective Measures</h4>
+                    <div class="form-grid">
+                        <label>
+                            MMT
+                            <input type="text" id="mmt">
+                        </label>
+                        <label>
+                            ROM
+                            <input type="text" id="rom">
+                        </label>
+                        <label>
+                            Berg Balance
+                            <input type="number" id="berg">
+                        </label>
+                        <label>
+                            HR
+                            <input type="number" id="hr">
+                        </label>
+                        <label>
+                            BP
+                            <input type="text" id="bp">
+                        </label>
+                        <label>
+                            SpO₂
+                            <input type="text" id="spo2">
+                        </label>
                     </div>
+                    <h4>Short‑Term Goals</h4>
+                    <table id="st-goals" class="goals-table">
+                        <thead>
+                            <tr><th>Goal</th><th>Due Date</th><th>Status</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <h4>Long‑Term Goals</h4>
+                    <table id="lt-goals" class="goals-table">
+                        <thead>
+                            <tr><th>Goal</th><th>Due Date</th><th>Status</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <label>
+                        Contraindications
+                        <textarea id="contraindications" rows="2"></textarea>
+                    </label>
+                    <label>
+                        Patient Consent
+                        <input type="checkbox" id="patient-consent">
+                    </label>
+                    <label>
+                        Informed Consent
+                        <input type="checkbox" id="informed-consent">
+                    </label>
+                    <label>
+                        Required CPT Codes (comma separated)
+                        <input type="text" id="required-cpt">
+                    </label>
+                    <label>
+                        Plan Frequency
+                        <input type="text" id="plan-frequency">
+                    </label>
+                    <label>
+                        Therapist Signature
+                        <input type="text" id="therapist-signature">
+                    </label>
+                    <label>
+                        Physician Signature
+                        <input type="text" id="physician-signature">
+                    </label>
+                </form>
+                <h3>Progress Notes</h3>
+                <div id="progress-notes-list">
+                    <!-- Progress notes will render here -->
                 </div>
+                <button id="add-note-btn">Add Progress Note</button>
+            </section>
+            <section id="empty-state">
+                <p>Select a patient to view evaluation and progress notes.</p>
+            </section>
+        </main>
+    </div>
+    <!-- Patient template for progress note -->
+    <template id="progress-note-template">
+        <div class="progress-note">
+            <div class="note-header">
+                <input type="date" class="note-date">
+                <button class="sign-lock-btn">Sign &amp; Lock</button>
+                <button class="unlock-btn hidden">Unlock</button>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>PTA EMR Playground – For educational use only. Generated patient data is fictitious.</p>
-    </footer>
-
+            <label>
+                Subjective
+                <textarea class="note-subjective" rows="2"></textarea>
+            </label>
+            <label>
+                Objective
+                <textarea class="note-objective" rows="2"></textarea>
+            </label>
+            <label>
+                Assessment
+                <textarea class="note-assessment" rows="2"></textarea>
+            </label>
+            <label>
+                Plan
+                <textarea class="note-plan" rows="2"></textarea>
+            </label>
+            <div class="cpt-section">
+                <h5>CPT Codes &amp; Minutes</h5>
+                <table class="cpt-table">
+                    <thead>
+                        <tr><th>Code</th><th>Minutes</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <!-- CPT rows inserted here -->
+                    </tbody>
+                </table>
+                <button class="add-cpt-btn">Add CPT Code</button>
+                <p>Total Minutes: <span class="total-min">0</span> | Units: <span class="total-units">0</span></p>
+            </div>
+            <label>
+                Therapist Signature
+                <input type="text" class="note-therapist-signature">
+            </label>
+        </div>
+    </template>
+    <!-- CPT row template -->
+    <template id="cpt-row-template">
+        <tr>
+            <td><input type="text" class="cpt-code"></td>
+            <td><input type="number" min="0" class="cpt-min"></td>
+            <td><button class="remove-cpt-btn">X</button></td>
+        </tr>
+    </template>
     <script src="script.js"></script>
 </body>
 </html>
