@@ -184,6 +184,47 @@ input[type="checkbox"] {
   margin-top: 0.5rem;
 }
 
+/* Overview card */
+.overview {
+  background-color: #f0f3f5;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.overview .overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.5rem 1rem;
+}
+.overview-item {
+  margin-bottom: 0.25rem;
+}
+.overview-item strong {
+  display: block;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* Evaluation actions buttons */
+.eval-actions {
+  margin-top: 1rem;
+}
+.eval-actions button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+#sign-lock-eval-btn {
+  background-color: #2ecc71;
+}
+#unlock-eval-btn {
+  background-color: #e74c3c;
+}
+
 /* Hidden state */
 .hidden {
   display: none;

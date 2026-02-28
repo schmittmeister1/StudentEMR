@@ -4,6 +4,77 @@
 let patients = [];
 let currentIndex = null;
 
+// Compute age from DOB string (YYYY-MM-DD)
+function computeAge(dob) {
+  if (!dob) return '';
+  const birth = new Date(dob);
+  const now = new Date();
+  let age = now.getFullYear() - birth.getFullYear();
+  const m = now.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
+}
+
+// Populate patient overview: demographics, PMH, allergies, insurance info, orders, etc.
+function populateOverview(patient) {
+  const container = document.getElementById('patient-overview');
+  if (!container) return;
+  const e = patient.evaluation;
+  const age = computeAge(e.dob);
+  const items = [
+    { label: 'Category', value: patient.category },
+    { label: 'Condition', value: patient.condition },
+    { label: 'Gender', value: patient.gender },
+    { label: 'Date of Birth', value: e.dob },
+    { label: 'Age', value: age ? age + ' years' : '' },
+    { label: 'Past Medical History', value: patient.pmh },
+    { label: 'Allergies', value: patient.allergies },
+    { label: 'Medications', value: e.medications },
+    { label: 'Insurance Provider', value: e.insurance },
+    { label: 'Policy Number', value: e.policy_number },
+    { label: 'Account #', value: e.account_number },
+    { label: 'Referring Physician', value: e.referring_physician },
+    { label: 'Physician Orders', value: patient.orders }
+  ];
+  let html = '<div class="overview-grid">';
+  items.forEach(item => {
+    html += `<div class="overview-item"><strong>${item.label}</strong><span>${item.value || ''}</span></div>`;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Set locked state on evaluation: disable/enable inputs and toggle buttons
+function setEvaluationLockedState(locked) {
+  const form = document.getElementById('evaluation-form');
+  if (!form) return;
+  const inputs = form.querySelectorAll('input, textarea, select');
+  inputs.forEach(input => {
+    // Signature fields remain editable only until locked
+    if (input.id === 'therapist-signature' || input.id === 'physician-signature') {
+      input.disabled = locked;
+    } else {
+      input.disabled = locked;
+    }
+  });
+  const signBtn = document.getElementById('sign-lock-eval-btn');
+  const unlockBtn = document.getElementById('unlock-eval-btn');
+  if (locked) {
+    signBtn.classList.add('hidden');
+    unlockBtn.classList.remove('hidden');
+  } else {
+    signBtn.classList.remove('hidden');
+    unlockBtn.classList.add('hidden');
+  }
+  // Save locked state to current patient
+  if (currentIndex !== null) {
+    patients[currentIndex].evaluation.locked = locked;
+    saveData();
+  }
+}
+
 // Load initial data from JSON or localStorage
 async function loadData() {
   const stored = localStorage.getItem('pta_emr_patients');
@@ -65,6 +136,12 @@ function selectPatient(idx) {
   populateEvaluation(patient);
   // Render progress notes
   renderProgressNotes(patient);
+  // Populate overview information
+  populateOverview(patient);
+  // Set evaluation locked state
+  setEvaluationLockedState(patient.evaluation.locked || false);
+  // Attach sign/lock/unlock handlers for evaluation
+  attachEvaluationActions(patient);
 }
 
 // Populate evaluation form fields
@@ -214,6 +291,35 @@ function attachEvaluationListeners(patient) {
   });
   document.getElementById('informed-consent').addEventListener('change', ev => {
     e.informed_consent = ev.target.checked;
+    saveData();
+  });
+}
+
+// Attach actions for evaluation sign & lock / unlock
+function attachEvaluationActions(patient) {
+  const signBtn = document.getElementById('sign-lock-eval-btn');
+  const unlockBtn = document.getElementById('unlock-eval-btn');
+  // Remove existing click handlers by cloning nodes
+  const newSignBtn = signBtn.cloneNode(true);
+  const newUnlockBtn = unlockBtn.cloneNode(true);
+  signBtn.replaceWith(newSignBtn);
+  unlockBtn.replaceWith(newUnlockBtn);
+  // Assign IDs back (clone preserves id)
+  // Select again
+  const sBtn = document.getElementById('sign-lock-eval-btn');
+  const uBtn = document.getElementById('unlock-eval-btn');
+  sBtn.addEventListener('click', () => {
+    const e = patient.evaluation;
+    // Auto-sign if no therapist signature
+    if (!e.therapist_signature) {
+      e.therapist_signature = e.evaluation_therapist || 'Signed';
+      document.getElementById('therapist-signature').value = e.therapist_signature;
+    }
+    setEvaluationLockedState(true);
+    saveData();
+  });
+  uBtn.addEventListener('click', () => {
+    setEvaluationLockedState(false);
     saveData();
   });
 }

@@ -25,6 +25,8 @@
         <main id="main">
             <section id="patient-details" class="hidden">
                 <h2 id="patient-name"></h2>
+                <!-- Overview section will display demographics, PMH, allergies, insurance, etc. -->
+                <div id="patient-overview" class="overview"></div>
                 <form id="evaluation-form">
                     <h3>Evaluation</h3>
                     <div class="form-grid">
@@ -150,6 +152,10 @@
                         Physician Signature
                         <input type="text" id="physician-signature">
                     </label>
+                <div class="eval-actions">
+                    <button type="button" id="sign-lock-eval-btn">Sign &amp; Lock Evaluation</button>
+                    <button type="button" id="unlock-eval-btn" class="hidden">Unlock Evaluation</button>
+                </div>
                 </form>
                 <h3>Progress Notes</h3>
                 <div id="progress-notes-list">
